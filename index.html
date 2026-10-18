@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1f3a">
+  <meta name="description" content="Private field service app for A-1 Drain Cleaning.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>A-1 Drain Cleaning Field App</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#142033;background:#eef2f6;line-height:1.45}*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer}.shell{max-width:1100px;margin:auto;padding:16px}.topbar{background:#0b1f3a;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10}.topbar-inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;gap:12px;align-items:center}.brand{font-weight:800}.muted{color:#617086}.topbar .muted{color:#d7e0eb}.card{background:#fff;border:1px solid #d7dee7;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #0000000a}.grid{display:grid;gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:720px){.grid.two,.grid.three{grid-template-columns:1fr}}label{display:block;font-weight:700;margin-bottom:5px}input,textarea{width:100%;border:1px solid #bcc7d4;border-radius:9px;padding:11px;background:#fff}textarea{min-height:110px;resize:vertical}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}button,.button{border:0;border-radius:9px;padding:10px 14px;font-weight:700;background:#0b1f3a;color:#fff}.secondary{background:#e8edf3;color:#162337}.danger{background:#9d1c1c}.success{background:#176b3a}.notice{padding:11px 13px;border-radius:9px;background:#eef5ff;border:1px solid #b9d0ed;margin:10px 0}.error{background:#fff0f0;border-color:#e0a6a6;color:#8d1515}.hidden{display:none!important}.job-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #e0e5eb;padding:13px 0}.job-row:first-child{border-top:0}.job-title{font-weight:800}.status{font-size:.82rem;border-radius:999px;padding:4px 8px;background:#e8edf3;display:inline-block}.status.signed{background:#e5f5ea;color:#176b3a}.status.pending{background:#fff5dc;color:#805b00}.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}.photo-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;border:1px solid #ccd5df}.signature-wrap{border:1px solid #bcc7d4;border-radius:9px;background:#fff}.signature-wrap canvas{width:100%;height:220px;display:block;touch-action:none}.small{font-size:.9rem}.right{margin-left:auto}
+  </style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner"><div><div class="brand">A-1 Drain Cleaning</div><div class="muted small">Private Field App</div></div><button id="logoutBtn" class="secondary hidden">Log out</button></div></header>
+<main class="shell">
+  <section id="authView" class="card">
+    <h1>Field App Login</h1>
+    <p class="muted">Sign in to access A-1 Drain Cleaning job records.</p>
+    <div id="authNotice" class="notice hidden"></div>
+    <form id="authForm" class="grid">
+      <div><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" required></div>
+      <div><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8" required></div>
+      <div class="actions"><button type="submit">Sign in</button><button type="button" id="createAccountBtn" class="secondary">Create account</button></div>
+    </form>
+  </section>
+
+  <section id="appView" class="hidden">
+    <div id="appNotice" class="notice hidden"></div>
+    <section id="listView" class="card">
+      <div class="actions" style="justify-content:space-between;align-items:center"><h1 style="margin:0">Jobs</h1><button id="newJobBtn">New Job</button></div>
+      <div style="margin-top:12px"><label for="searchInput">Search jobs</label><input id="searchInput" placeholder="Customer, phone, address, invoice"></div>
+      <div id="jobList" style="margin-top:10px"></div>
+    </section>
+
+    <section id="jobView" class="hidden">
+      <div class="card">
+        <div class="actions" style="justify-content:space-between"><button id="backBtn" class="secondary">Back to Jobs</button><button id="deleteBtn" class="danger">Delete</button></div>
+        <h1 id="jobHeading">New Job</h1>
+        <form id="jobForm" class="grid">
+          <div class="grid two">
+            <div><label for="custName">Customer name</label><input id="custName" required maxlength="160"></div>
+            <div><label for="custPhone">Phone</label><input id="custPhone" maxlength="40" inputmode="tel"></div>
+          </div>
+          <div><label for="serviceAddr">Service address</label><input id="serviceAddr" required maxlength="300"></div>
+          <div class="grid two">
+            <div><label for="invoiceNum">Invoice / job number</label><input id="invoiceNum" maxlength="80"></div>
+            <div><label for="signerName">Authorized signer name</label><input id="signerName" maxlength="160"></div>
+          </div>
+          <div><label for="workDesc">Work requested / performed</label><textarea id="workDesc" maxlength="5000"></textarea></div>
+          <div><label for="existNotes">Existing conditions / notes</label><textarea id="existNotes" maxlength="5000"></textarea></div>
+          <div><label><input id="authorization" type="checkbox" style="width:auto;margin-right:7px"> Customer authorizes A-1 Drain Cleaning to perform the work described above.</label></div>
+          <div><label>Customer signature</label><div class="signature-wrap"><canvas id="signatureCanvas"></canvas></div><div class="actions"><button type="button" id="clearSignature" class="secondary">Clear signature</button></div></div>
+          <div><label for="invoicePhoto">Invoice photo</label><input id="invoicePhoto" type="file" accept="image/*" capture="environment"></div>
+          <div><label for="jobPhotos">Job photos</label><input id="jobPhotos" type="file" accept="image/*" capture="environment" multiple></div>
+          <div id="photoPreview" class="photo-grid"></div>
+          <div><label for="compNotes">Completion notes</label><textarea id="compNotes" maxlength="5000"></textarea></div>
+          <div class="actions"><button type="submit" class="success">Save / Finalize Job</button><button type="button" id="pdfBtn" class="secondary">Create PDF</button></div>
+        </form>
+      </div>
+    </section>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="./config.js"></script>
+<script src="./app.js" defer></script>
+</body>
+</html>

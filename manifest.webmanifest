@@ -1,0 +1,12 @@
+{
+  "name": "A-1 Drain Cleaning Field App",
+  "short_name": "A-1 Field",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef2f6",
+  "theme_color": "#0b1f3a",
+  "description": "Private A-1 Drain Cleaning field job records.",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

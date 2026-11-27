@@ -1,45 +1,20 @@
 # A-1 Drain Cleaning Field App
 
-Private static/PWA field application for A-1 Drain Cleaning.
+Permanent native Android application repository for A-1 Drain Cleaning.
 
-## Included
+Business details: A-1 Drain Cleaning, 206 29th St SW, Mason City, Iowa 50401, 641-530-2728.
 
-- Supabase email/password authentication.
-- PostgreSQL Row Level Security so each account can access only its own jobs.
-- Private job/invoice photo storage.
-- IndexedDB local job storage for temporary offline work.
-- Automatic sync when the connection returns.
-- Customer authorization and signature capture.
-- Compressed job photographs.
-- Local PDF generation.
-- Installable PWA shell.
-- No database password or Supabase service-role key in browser code.
+## Native Android foundation
+- Kotlin Android Studio-compatible Gradle project.
+- Existing floating scratchpad drawing canvas and overlay service preserved from `android-scratchpad`.
+- Local SQLite storage supports creating, editing, listing, and searching job records without cellular service.
+- AndroidX enabled in `gradle.properties`.
+- GitHub Actions workflow builds and uploads a debug APK on pushes to `main` and manual dispatch.
 
-## Setup
+## Build
+Requires JDK 17 and Android SDK 35. Run `gradle assembleDebug`. APK output: `app/build/outputs/apk/debug/app-debug.apk`.
 
-1. Create a Supabase project.
-2. Open Supabase SQL Editor and run `supabase.sql`.
-3. Create the authorized field-app account in Supabase Auth, or use the app's Create account button during initial setup.
-4. Put the Supabase Project URL and public anon key into `config.js`.
-5. Deploy this repository over HTTPS.
-6. Open the deployed app and sign in.
+## Migration status
+The original PWA source and Supabase SQL are intentionally retained as migration references. Do not delete them or run destructive database changes. The current native foundation is not yet feature-complete: Supabase authentication and idempotent cloud synchronization, photo capture/upload, signature capture, PDF export, and attaching scratchpad drawings to jobs still require implementation and verification. The scratchpad's current Save action writes to Pictures/Scratchpad.
 
-The browser may use the public Supabase URL and anon key. Do not put the database password or `service_role` key in `config.js`.
-
-## Offline behavior
-
-After the app has loaded and the user has an active session, a temporary loss of internet does not prevent a new job from being entered, signed, photographed, completed, and saved locally. When the connection returns, pending records are uploaded automatically.
-
-The first load, account authentication, cloud sync, and cross-device access require internet access. Do not log out while working offline.
-
-## Production security
-
-Keep the Supabase bucket private and keep RLS enabled. Use a strong unique account password and enable MFA where available. If only one authorized operator should have access, disable public sign-up after the owner account is created and remove the Create Account control from the UI.
-
-## Local test
-
-Serve the repository over HTTP rather than opening `index.html` directly with `file://`:
-
-    python3 -m http.server 8080
-
-Then open `http://localhost:8080`.
+Never embed a Supabase service-role key or database password in the APK. Use authenticated user access, the public anon key, and Row Level Security.
